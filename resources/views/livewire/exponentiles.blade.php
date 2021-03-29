@@ -1,31 +1,79 @@
 <div>
-  <div class="w-1/2 mx-auto">
-    <div class="h-96 grid grid-cols-4 grid-flow-row gap-4 text-black text-lg font-mono px-8 pt-8">
-      @foreach($this->tiles as $tile)
-        <div class="bg-blue-300 rounded-md flex items-center justify-center text-2xl font-bold">
-          {{ $tile }}
-        </div>
-      @endforeach
-    </div>
-  </div>
-  <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8 text-center">
-    @foreach (['WEST', 'NORTH', 'SOUTH', 'EAST'] as $direction)
-      <x-jet-button type="button"
-                    wire:loading.attr="disabled"
-                    wire:click="steer('{{$direction}}')"
-      >
-        {{ __($direction) }}
-      </x-jet-button>
-    @endforeach
-
-    <x-jet-section-border />
-
-    <x-jet-danger-button type="button"
-                         wire:loading.attr="disabled"
-                         wire:click="newGame()"
+    <div class="container"
+         x-data="{}"
+         x-on:keydown.arrow-up.window="$wire.steer('NORTH')"
+         x-on:keydown.arrow-down.window="$wire.steer('SOUTH')"
+         x-on:keydown.arrow-right.window="$wire.steer('EAST')"
+         x-on:keydown.arrow-left.window="$wire.steer('WEST')"
     >
-      {{ __('New game') }}
-    </x-jet-danger-button>
-  </div>
 
+        <div class="above-game">
+            <p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
+            <a class="restart-button" wire:click="newGame()">New Game</a>
+        </div>
+
+        <div class="game-container">
+            <div class="game-message">
+                <p></p>
+                <div class="lower">
+                    <a class="keep-playing-button">Keep going</a>
+                    <a class="retry-button">Try again</a>
+                </div>
+            </div>
+
+            <div class="grid-container">
+                <div class="grid-row">
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                </div>
+            </div>
+
+            <div class="tile-container">
+                @foreach($this->tiles as $key => $tile)
+                    <div class="tile tile-key-{{$key}} tile-{{$tile->value}} tile-position-{{ $tile->x + 1 }}-{{ $tile->y + 1 }} tile-new">
+                        <div class="tile-inner">{{$tile->value}}</div>
+                    </div>
+                @endforeach
+{{--                <div class="tile tile-4 tile-position-1-4 tile-new">--}}
+{{--                    <div class="tile-inner">4</div>--}}
+{{--                </div>--}}
+{{--                <div class="tile tile-2 tile-position-4-1 tile-new">--}}
+{{--                    <div class="tile-inner">2</div>--}}
+{{--                </div>--}}
+{{--                <div class="tile tile-2 tile-position-4-4 tile-new">--}}
+{{--                    <div class="tile-inner">2</div>--}}
+{{--                </div>--}}
+            </div>
+        </div>
+
+        <p class="game-explanation">
+            <strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
+        </p>
+        <hr>
+        <p>
+            Created by
+            <a href="https://github.com/jstoone" target="_blank">@jstoone</a>
+            - as a port of <a href="http://gabrielecirulli.com" target="_blank">2048 by Gabriele Cirulli.</a>
+        </p>
+    </div>
 </div>

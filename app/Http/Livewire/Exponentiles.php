@@ -10,7 +10,7 @@ use Livewire\Component;
 class Exponentiles extends Component
 {
     /**
-     * @var array<int, int>
+     * @var array<int, Tile>
      */
     public array $tiles;
 
@@ -30,7 +30,9 @@ class Exponentiles extends Component
             Cache::get('game')
         );
 
-        $this->tiles = Cache::get('game');
+        $this->tiles = collect($this->engine->grid->tiles)
+            ->collapse()
+            ->toArray();
     }
 
     public function steer(string $direction)
@@ -46,7 +48,9 @@ class Exponentiles extends Component
 
         Cache::put('game', $this->engine->grid->toArray());
 
-        $this->tiles = Cache::get('game');
+        $this->tiles = collect($this->engine->grid->tiles)
+            ->collapse()
+            ->toArray();
     }
 
     public function newGame()
@@ -57,7 +61,9 @@ class Exponentiles extends Component
 
         Cache::put('game', $this->engine->grid->toArray());
 
-        $this->tiles = Cache::get('game');
+        $this->tiles = collect($this->engine->grid->tiles)
+            ->collapse()
+            ->toArray();
     }
 
     public function render()
