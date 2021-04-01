@@ -6,6 +6,6 @@
     </x-slot>
 
     <div class="py-12">
-        @livewire('exponentiles')
+        @livewire('exponentiles.game')
     </div>
 </x-app-layout>
